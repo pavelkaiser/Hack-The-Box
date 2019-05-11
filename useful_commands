@@ -45,6 +45,13 @@ hydra 10.10.10.95 -C /usr/share/seclists/Passwords/Default-Credentials/tomcat-be
 -s = port 
 
 
+Jack: 
+PDF File:  
+first get the hash:  /usr/share/john/pdf2john.pl ./Old_is_gold.pdf > ./pdf_hash.txt
+second: decode the hash (after the filename is removed from the pdf_hash.txt file: john --wordlist=/usr/share/wordlists/rockyou.txt ./pdf_hash.txt 
+
+
+
 
 Reverse Shells 
 ===============
